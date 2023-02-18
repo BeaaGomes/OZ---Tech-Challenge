@@ -32,11 +32,11 @@ class Article extends Model
             'external_id' => $external_article->id,
             'title' => $external_article->title,
             'url' => $external_article->url,
-            'imageUrl' => $external_article->imageUrl,
-            'newsSite' => $external_article->newsSite,
+            'image_url' => $external_article->imageUrl,
+            'news_site' => $external_article->newsSite,
             'summary' => $external_article->summary,
-            'publishedAt' => $external_article->publishedAt,
-            'updatedAt' => $external_article->updatedAt,
+            'published_at' => $external_article->publishedAt,
+            'updated_at' => $external_article->updatedAt,
             'featured' => $external_article->featured
         ]);
 

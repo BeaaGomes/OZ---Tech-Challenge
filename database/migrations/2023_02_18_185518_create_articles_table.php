@@ -19,11 +19,11 @@ return new class extends Migration
             $table->unsignedBigInteger("external_id");
             $table->string("title");
             $table->string("url");
-            $table->string("imageUrl");
-            $table->string("newsSite");
+            $table->string("image_url");
+            $table->string("news_site");
             $table->string("summary");
-            $table->string("publishedAt");
-            $table->string("updatedAt");
+            $table->string("published_at");
+            $table->string("updated_at");
             $table->boolean("featured");
         });
     }
