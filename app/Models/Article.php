@@ -2,12 +2,28 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'id',
+        'external_id',
+        'title',
+        'url',
+        'image_url',
+        'news_site',
+        'summary',
+        'published_at',
+        'updated_at',
+        'featured'
+    ];
 
     public function launches() {
         return $this->belongsToMany(
@@ -27,35 +43,35 @@ class Article extends Model
         );
     }
 
-    public function createFromExternalArticle($external_article) {
+    public static function createFromExternalArticle($external_article) {
         $article = Article::create([
-            'external_id' => $external_article->id,
-            'title' => $external_article->title,
-            'url' => $external_article->url,
-            'image_url' => $external_article->imageUrl,
-            'news_site' => $external_article->newsSite,
-            'summary' => $external_article->summary,
-            'published_at' => $external_article->publishedAt,
-            'updated_at' => $external_article->updatedAt,
-            'featured' => $external_article->featured
+            'external_id' => $external_article['id'],
+            'title' => $external_article['title'],
+            'url' => $external_article['url'],
+            'image_url' => $external_article['imageUrl'],
+            'news_site' => $external_article['newsSite'],
+            'summary' => $external_article['summary'],
+            'published_at' => Carbon::parse($external_article['publishedAt']),
+            'updated_at' => Carbon::parse($external_article['updatedAt']),
+            'featured' => $external_article['featured']
         ]);
 
-        foreach($external_article->launches as $launch){
-            $launch = Launch::firstOrCreate([
-                'id' => $external_article->id,
-                'provider' => $external_article->provider
+        foreach($external_article["launches"] as $launch){
+            Launch::firstOrCreate([
+                'id' => $launch["id"],
+                'provider' => $launch["provider"]
             ]);
 
-            $article->launches()->attach($launch->id);
+            $article->launches()->attach($launch["id"]);
         }
 
-        foreach($external_article->events as $event){
-            $event = Event::firstOrCreate([
-                'id' => $external_article->id,
-                'provider' => $external_article->provider
+        foreach($external_article["events"] as $event){
+            Event::firstOrCreate([
+                'id' => $event["id"],
+                'provider' => $event["provider"]
             ]);
 
-            $article->events()->attach($event->id);
+            $article->events()->attach($event["id"]);
         }
 
     }
