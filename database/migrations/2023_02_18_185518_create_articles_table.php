@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger("external_id");
+            $table->unsignedBigInteger("external_id")->unique();
             $table->string("title", 255);
             $table->string("url", 500);
             $table->string("image_url", 500);
