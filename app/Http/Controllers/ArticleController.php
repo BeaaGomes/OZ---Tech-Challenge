@@ -7,14 +7,12 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    public function index(Request $request) {
+        $skip_entries = $request->page * 10;
+        return Article::orderBy("id")
+            ->skip($skip_entries)
+            ->take(10)
+            ->get();
     }
 
     /**
