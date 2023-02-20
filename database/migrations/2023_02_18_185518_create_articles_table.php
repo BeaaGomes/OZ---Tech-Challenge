@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string("image_url", 500);
             $table->string("news_site", 255);
             $table->string("summary", 3000);
-            $table->string("published_at");
-            $table->string("updated_at");
+            $table->dateTimeTz("published_at");
+            $table->dateTimeTz("updated_at");
             $table->boolean("featured");
         });
     }
