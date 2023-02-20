@@ -68,20 +68,15 @@ class ArticleController extends Controller
         if(isset($request->events)){
             DB::table('articles_events')->where('article_id', $article->id)->delete();
         }
-        
+
         $article->associateLaunchesAndEvents($request->launches, $request->events);
 
         return "Article updated!";
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Article  $article
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Article $article)
-    {
-        //
+    public function destroy(Article $article) {
+        $article->delete();
+
+        return "Article deleted!";
     }
 }
