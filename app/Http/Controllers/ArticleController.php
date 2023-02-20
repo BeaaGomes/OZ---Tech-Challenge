@@ -25,15 +25,23 @@ class ArticleController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request) {
+        $external_article = $request->only([
+            'title',
+            'url',
+            'imageUrl',
+            'newsSite',
+            'summary',
+            'publishedAt',
+            'updatedAt',
+            'featured',
+            'launches',
+            'events'
+        ]);
+
+        Article::createFromExternalArticle($external_article);
+
+        return "Article created!";
     }
 
     public function show(Article $article) {
