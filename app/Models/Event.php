@@ -9,6 +9,13 @@ class Event extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
+    protected $fillable = [
+        'id',
+        'provider'
+    ];
+
     public function articles() {
         return $this->belongsToMany(
             Article::class,
