@@ -56,23 +56,29 @@ class Article extends Model
             'featured' => $external_article['featured']
         ]);
 
-        foreach($external_article["launches"] as $launch){
+        $article->associateLaunchesAndEvents($external_article['launches'], $external_article['events']);
+    }
+
+    public function associateLaunchesAndEvents($launches, $events){
+        $launches = $launches ?? [];
+        $events = $events ?? [];
+
+        foreach($launches as $launch){
             Launch::firstOrCreate([
                 'id' => $launch["id"],
                 'provider' => $launch["provider"]
             ]);
 
-            $article->launches()->attach($launch["id"]);
+            $this->launches()->attach($launch["id"]);
         }
 
-        foreach($external_article["events"] as $event){
+        foreach($events as $event){
             Event::firstOrCreate([
                 'id' => $event["id"],
                 'provider' => $event["provider"]
             ]);
 
-            $article->events()->attach($event["id"]);
+            $this->events()->attach($event["id"]);
         }
-
     }
 }

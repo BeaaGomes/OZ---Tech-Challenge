@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
 {
@@ -48,27 +49,29 @@ class ArticleController extends Controller
         return $article;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Article  $article
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Article $article)
-    {
-        //
-    }
+    public function update(Request $request, Article $article) {
+        $article->update($request->only([
+            'title',
+            'url',
+            'imageUrl',
+            'newsSite',
+            'summary',
+            'publishedAt',
+            'updatedAt',
+            'featured'
+        ]));
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Article  $article
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Article $article)
-    {
-        //
+        if(isset($request->launches)){
+            DB::table('articles_launches')->where('article_id', $article->id)->delete();
+        }
+
+        if(isset($request->events)){
+            DB::table('articles_events')->where('article_id', $article->id)->delete();
+        }
+        
+        $article->associateLaunchesAndEvents($request->launches, $request->events);
+
+        return "Article updated!";
     }
 
     /**
