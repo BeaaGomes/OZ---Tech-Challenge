@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger("external_id")->unique();
+            $table->unsignedBigInteger("external_id")->unique()->nullable();
             $table->string("title", 255);
             $table->string("url", 500);
-            $table->string("image_url", 500);
+            $table->string("image_url", 500)->nullable();
             $table->string("news_site", 255);
-            $table->string("summary", 3000);
+            $table->string("summary", 3000)->nullable();
             $table->dateTimeTz("published_at");
             $table->dateTimeTz("updated_at");
             $table->boolean("featured");

@@ -45,12 +45,12 @@ class Article extends Model
 
     public static function createFromExternalArticle($external_article) {
         $article = Article::create([
-            'external_id' => $external_article['id'],
+            'external_id' => $external_article['id'] ?? null,
             'title' => $external_article['title'],
             'url' => $external_article['url'],
-            'image_url' => $external_article['imageUrl'],
+            'image_url' => $external_article['imageUrl'] ?? null,
             'news_site' => $external_article['newsSite'],
-            'summary' => $external_article['summary'],
+            'summary' => $external_article['summary'] ?? null,
             'published_at' => Carbon::parse($external_article['publishedAt']),
             'updated_at' => Carbon::parse($external_article['updatedAt']),
             'featured' => $external_article['featured']
