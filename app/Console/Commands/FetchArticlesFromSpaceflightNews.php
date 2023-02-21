@@ -2,9 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\ExceptionOccured;
 use App\Models\Article;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
+use Throwable;
 
 class FetchArticlesFromSpaceflightNews extends Command
 {
@@ -31,6 +34,14 @@ class FetchArticlesFromSpaceflightNews extends Command
      */
     public function handle()
     {
+        try{
+            return $this->fetchArticlesFromSpaceflightNews();
+        } catch(Throwable $throwable){
+            $this->handleThrowable($throwable);
+        }
+    }
+
+    private function fetchArticlesFromSpaceflightNews(){
         $max_external_id = Article::max('external_id') ?? 0;
 
         $imported_amount = 0;
@@ -55,5 +66,17 @@ class FetchArticlesFromSpaceflightNews extends Command
         $this->info("Import finished!");
 
         return Command::SUCCESS;
+    }
+
+    private function handleThrowable($throwable){
+        $content['message'] = $throwable->getMessage();
+        $content['file'] = $throwable->getFile();
+        $content['line'] = $throwable->getLine();
+        $content['trace'] = $throwable->getTrace();
+        $content['url'] = request()->url();
+        $content['body'] = request()->all();
+        $content['ip'] = request()->ip();
+
+        Mail::to(env('ALERT_MAIL_TO_ADDRESS'))->send(new ExceptionOccured($content));
     }
 }
