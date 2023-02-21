@@ -243,4 +243,11 @@ class ArticleControllerTest extends TestCase
 
         $this->assertDatabaseHas('articles_events', $article_event);
     }
+
+    public function test_delete_articles_endpoint_deletes_article() {
+        $article = Article::first();
+        $this->delete('/articles/' . $article->id);
+
+        $this->assertDatabaseMissing('articles', ['id' => $article->id]);
+    }
 }
