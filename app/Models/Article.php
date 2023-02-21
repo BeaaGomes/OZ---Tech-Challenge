@@ -57,6 +57,8 @@ class Article extends Model
         ]);
 
         $article->associateLaunchesAndEvents($external_article['launches'], $external_article['events']);
+
+        return $article;
     }
 
     public function associateLaunchesAndEvents($launches, $events){

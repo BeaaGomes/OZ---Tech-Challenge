@@ -10,6 +10,7 @@ class Launch extends Model
     use HasFactory;
 
     public $timestamps = false;
+    protected $keyType = 'string';
 
     protected $fillable = [
         'id',

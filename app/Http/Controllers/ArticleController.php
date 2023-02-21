@@ -40,9 +40,7 @@ class ArticleController extends Controller
             'events'
         ]);
 
-        Article::createFromExternalArticle($external_article);
-
-        return "Article created!";
+        return Article::createFromExternalArticle($external_article);
     }
 
     public function show(Article $article) {
@@ -71,7 +69,7 @@ class ArticleController extends Controller
 
         $article->associateLaunchesAndEvents($request->launches, $request->events);
 
-        return "Article updated!";
+        return $article;
     }
 
     public function destroy(Article $article) {
