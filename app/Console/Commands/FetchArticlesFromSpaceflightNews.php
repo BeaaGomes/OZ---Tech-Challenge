@@ -42,7 +42,7 @@ class FetchArticlesFromSpaceflightNews extends Command
     }
 
     private function fetchArticlesFromSpaceflightNews(){
-        $max_external_id = Article::max('external_id') ?? 0;
+        $max_external_id = Article::max('externalId') ?? 0;
 
         $imported_amount = 0;
         do{

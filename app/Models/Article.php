@@ -15,14 +15,14 @@ class Article extends Model
     protected $hidden = array('pivot');
     protected $fillable = [
         'id',
-        'external_id',
+        'externalId',
         'title',
         'url',
-        'image_url',
-        'news_site',
+        'imageUrl',
+        'newsSite',
         'summary',
-        'published_at',
-        'updated_at',
+        'publishedAt',
+        'updatedAt',
         'featured'
     ];
 
@@ -46,14 +46,14 @@ class Article extends Model
 
     public static function createFromExternalArticle($external_article) {
         $article = Article::create([
-            'external_id' => $external_article['id'] ?? null,
+            'externalId' => $external_article['id'] ?? null,
             'title' => $external_article['title'],
             'url' => $external_article['url'],
-            'image_url' => $external_article['imageUrl'] ?? null,
-            'news_site' => $external_article['newsSite'],
+            'imageUrl' => $external_article['imageUrl'] ?? null,
+            'newsSite' => $external_article['newsSite'],
             'summary' => $external_article['summary'] ?? null,
-            'published_at' => Carbon::parse($external_article['publishedAt']),
-            'updated_at' => Carbon::parse($external_article['updatedAt']),
+            'publishedAt' => Carbon::parse($external_article['publishedAt']),
+            'updatedAt' => Carbon::parse($external_article['updatedAt']),
             'featured' => $external_article['featured']
         ]);
 
