@@ -30,7 +30,7 @@ class ArticleControllerTest extends TestCase
         $this->assertNotEquals($page_2_results, $page_3_results);
     }
 
-    public function test_get_articles_endpoint_returns_400_when_invalid_page_is_send() {
+    public function test_get_articles_endpoint_returns_400_when_invalid_params() {
         foreach ($this->provideInvalidPages() as $invalidPage){
             $response = $this->json('GET', '/articles', $invalidPage);
 
@@ -78,15 +78,15 @@ class ArticleControllerTest extends TestCase
         $new_article = $this->post('/articles', $article_data)->json();
 
         $this->assertDatabaseHas('articles', [
-            'id' => $new_article["id"]
+            'id' => $new_article['id']
         ]);
     }
 
-    public function test_post_articles_endpoint_creates_lauches(){
+    public function test_post_articles_endpoint_creates_launches(){
         $random_id = md5(rand());
 
         $article_data = $this->buildArticleData();
-        $article_data["launches"] = [
+        $article_data['launches'] = [
             [
                 'id' => $random_id,
                 'provider' => 'provider teste'
@@ -102,7 +102,7 @@ class ArticleControllerTest extends TestCase
 
         $this->assertDatabaseHas('articles_launches', [
             'launch_id' => $random_id,
-            'article_id' => $new_article["id"]
+            'article_id' => $new_article['id']
         ]);
     }
 
@@ -110,7 +110,7 @@ class ArticleControllerTest extends TestCase
         $random_id = md5(rand());
 
         $article_data = $this->buildArticleData();
-        $article_data["events"] = [
+        $article_data['events'] = [
             [
                 'id' => $random_id,
                 'provider' => 'provider teste'
@@ -126,7 +126,7 @@ class ArticleControllerTest extends TestCase
 
         $this->assertDatabaseHas('articles_events', [
             'event_id' => $random_id,
-            'article_id' => $new_article["id"]
+            'article_id' => $new_article['id']
         ]);
     }
 
@@ -134,13 +134,13 @@ class ArticleControllerTest extends TestCase
         $launch = Launch::first()->toArray();
 
         $article_data = $this->buildArticleData();
-        $article_data["launches"] = [$launch];
+        $article_data['launches'] = [$launch];
 
         $new_article = $this->post('/articles', $article_data);
 
         $this->assertDatabaseHas('articles_launches', [
-            'launch_id' => $launch["id"],
-            'article_id' => $new_article["id"]
+            'launch_id' => $launch['id'],
+            'article_id' => $new_article['id']
         ]);
     }
 
@@ -148,22 +148,31 @@ class ArticleControllerTest extends TestCase
         $event = Event::first()->toArray();
 
         $article_data = $this->buildArticleData();
-        $article_data["events"] = [$event];
+        $article_data['events'] = [$event];
 
         $new_article = $this->post('/articles', $article_data);
 
         $this->assertDatabaseHas('articles_events', [
-            'event_id' => $event["id"],
-            'article_id' => $new_article["id"]
+            'event_id' => $event['id'],
+            'article_id' => $new_article['id']
         ]);
+    }
+
+    public function test_post_articles_endpoint_returns_400_when_invalid_params() {
+        $invalid_article_data = $this->buildArticleData();
+        $invalid_article_data['title'] = null;
+
+        $response = $this->post('/articles', $invalid_article_data);
+
+        $response->assertStatus(400);
     }
 
     public function test_update_articles_endpoint_updates_article() {
         $article_data = $this->buildArticleData();
         $new_article = $this->put('/articles/8', $article_data);
 
-        $article_data["updatedAt"] = Carbon::parse($article_data["updatedAt"])->toDateTimeString();
-        $article_data["publishedAt"] = Carbon::parse($article_data["publishedAt"])->toDateTimeString();
+        $article_data['updatedAt'] = Carbon::parse($article_data['updatedAt'])->toDateTimeString();
+        $article_data['publishedAt'] = Carbon::parse($article_data['publishedAt'])->toDateTimeString();
 
         $new_article->assertJson($article_data);
     }
@@ -172,7 +181,7 @@ class ArticleControllerTest extends TestCase
         $random_id = md5(rand());
 
         $article_data = $this->buildArticleData();
-        $article_data["launches"] = [
+        $article_data['launches'] = [
             [
                 'id' => $random_id,
                 'provider' => 'provider teste'
@@ -183,7 +192,7 @@ class ArticleControllerTest extends TestCase
 
         $this->assertDatabaseHas('articles_launches', [
             'launch_id' => $random_id,
-            'article_id' => $new_article["id"]
+            'article_id' => $new_article['id']
         ]);
 
         $this->assertDatabaseHas('launches', [
@@ -195,7 +204,7 @@ class ArticleControllerTest extends TestCase
         $random_id = md5(rand());
 
         $article_data = $this->buildArticleData();
-        $article_data["events"] = [
+        $article_data['events'] = [
             [
                 'id' => $random_id,
                 'provider' => 'provider teste'
@@ -206,7 +215,7 @@ class ArticleControllerTest extends TestCase
 
         $this->assertDatabaseHas('articles_events', [
             'event_id' => $random_id,
-            'article_id' => $new_article["id"]
+            'article_id' => $new_article['id']
         ]);
 
         $this->assertDatabaseHas('events', [
@@ -218,8 +227,8 @@ class ArticleControllerTest extends TestCase
         $article_launch = DB::table('articles_launches')->first();
 
         $article_launch = [
-            "article_id" => $article_launch->article_id,
-            "launch_id" => $article_launch->launch_id
+            'article_id' => $article_launch->article_id,
+            'launch_id' => $article_launch->launch_id
         ];
 
         $article_data = $this->buildArticleData();
@@ -233,8 +242,8 @@ class ArticleControllerTest extends TestCase
         $article_event = DB::table('articles_events')->first();
 
         $article_event = [
-            "article_id" => $article_event->article_id,
-            "event_id" => $article_event->event_id
+            'article_id' => $article_event->article_id,
+            'event_id' => $article_event->event_id
         ];
 
         $article_data = $this->buildArticleData();
@@ -242,6 +251,16 @@ class ArticleControllerTest extends TestCase
         $this->put('/articles/' . $article_event['article_id'], $article_data);
 
         $this->assertDatabaseHas('articles_events', $article_event);
+    }
+
+    public function test_update_articles_endpoint_returns_400_when_invalid_params() {
+        $article = Article::first();
+        $invalid_article_data = $this->buildArticleData();
+        $invalid_article_data['publishedAt'] = 'invalidDate';
+
+        $response = $this->put('/articles/' . $article->id, $invalid_article_data);
+
+        $response->assertStatus(400);
     }
 
     public function test_delete_articles_endpoint_deletes_article() {

@@ -59,11 +59,11 @@ class FetchArticlesFromSpaceflightNews extends Command
             }
 
             if(end($articles)){
-                $max_external_id = end($articles)["id"];
+                $max_external_id = end($articles)['id'];
             }
         } while(count($articles) == self::BATCH_SIZE);
 
-        $this->info("Import finished!");
+        $this->info('Import finished!');
 
         return Command::SUCCESS;
     }

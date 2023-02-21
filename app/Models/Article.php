@@ -96,20 +96,20 @@ class Article extends Model
 
         foreach($launches as $launch){
             Launch::firstOrCreate([
-                'id' => $launch["id"],
-                'provider' => $launch["provider"]
+                'id' => $launch['id'],
+                'provider' => $launch['provider']
             ]);
 
-            $this->launches()->attach($launch["id"]);
+            $this->launches()->attach($launch['id']);
         }
 
         foreach($events as $event){
             Event::firstOrCreate([
-                'id' => $event["id"],
-                'provider' => $event["provider"]
+                'id' => $event['id'],
+                'provider' => $event['provider']
             ]);
 
-            $this->events()->attach($event["id"]);
+            $this->events()->attach($event['id']);
         }
     }
 }

@@ -69,7 +69,7 @@ class ArticleController extends Controller
             'updatedAt' => 'date',
             'featured' => 'boolean',
             'launches' => 'array',
-            'events' => 'array',
+            'events' => 'array'
         ]);
 
         if($validator->fails()){
