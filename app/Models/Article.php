@@ -44,20 +44,48 @@ class Article extends Model
         );
     }
 
-    public static function createFromExternalArticle($external_article) {
-        if($external_article['publishedAt']){
-            $external_article['publishedAt'] = Carbon::parse($external_article['publishedAt']);
+    /**
+    * Creates an article and associate it with its launches and events,
+    * if necessary it also creates the launches and events
+    *
+    * the raw_article should be in the following format:
+    * [
+    *   'id' => 0,
+    *   'featured' => false,
+    *   'title' => 'string',
+    *   'url' => 'string',
+    *   'imageUrl' => 'string',
+    *   'newsSite' => 'string',
+    *   'summary' => 'string',
+    *   'publishedAt' => 'string',
+    *   'launches' => [
+    *     [
+    *       'id' => 'string',
+    *       'provider' => 'string'
+    *     ]
+    *   ],
+    *   'events' => [
+    *     [
+    *       'id' => 'string',
+    *       'provider' => 'string'
+    *     ]
+    *   ]
+    * ]
+    */
+    public static function buildArticle($raw_article) {
+        if($raw_article['publishedAt']){
+            $raw_article['publishedAt'] = Carbon::parse($raw_article['publishedAt']);
         }
 
-        if($external_article['updatedAt']){
-            $external_article['updatedAt'] = Carbon::parse($external_article['updatedAt']);
+        if($raw_article['updatedAt']){
+            $raw_article['updatedAt'] = Carbon::parse($raw_article['updatedAt']);
         }
 
-        $external_article['externalId'] = $external_article['id'] ?? null;
+        $raw_article['externalId'] = $raw_article['id'] ?? null;
 
-        $article = Article::create($external_article);
+        $article = Article::create($raw_article);
 
-        $article->associateLaunchesAndEvents($external_article['launches'], $external_article['events']);
+        $article->associateLaunchesAndEvents($raw_article['launches'], $raw_article['events']);
 
         return $article;
     }

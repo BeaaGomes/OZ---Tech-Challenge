@@ -22,7 +22,7 @@ class ArticleController extends Controller
     }
 
     public function store(Request $request) {
-        $external_article = $request->only([
+        $raw_article = $request->only([
             'title',
             'url',
             'imageUrl',
@@ -35,7 +35,7 @@ class ArticleController extends Controller
             'events'
         ]);
 
-        $new_article = Article::createFromExternalArticle($external_article);
+        $new_article = Article::buildArticle($raw_article);
 
         return $this->getArticleWithLaunchesAndEvents($new_article);
     }

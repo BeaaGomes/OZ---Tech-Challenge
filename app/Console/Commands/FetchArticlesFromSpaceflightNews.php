@@ -50,7 +50,7 @@ class FetchArticlesFromSpaceflightNews extends Command
             $articles = $response->json();
 
             foreach($articles as $article){
-                Article::createFromExternalArticle($article);
+                Article::buildArticle($article);
                 $imported_amount++;
 
                 if($imported_amount % 100 == 0){

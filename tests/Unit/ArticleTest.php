@@ -10,8 +10,8 @@ class ArticleTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function test_create_from_external_article_changes_id_to_external_id() {
-        Article::createFromExternalArticle([
+    public function test_build_article_changes_id_to_external_id() {
+        Article::buildArticle([
             'id' => 1234567,
             'title' => 'titulo teste',
             'url' => 'url teste',
