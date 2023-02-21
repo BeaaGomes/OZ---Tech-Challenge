@@ -10,8 +10,9 @@ class Launch extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $keyType = 'string';
 
+    protected $keyType = 'string';
+    protected $hidden = array('pivot');
     protected $fillable = [
         'id',
         'provider'

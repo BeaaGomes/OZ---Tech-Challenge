@@ -8,11 +8,15 @@ use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
 {
+    public const PAGE_SIZE = 10;
+
     public function index(Request $request) {
-        $skip_entries = $request->page * 10;
+        $skip_entries = $request->page * self::PAGE_SIZE;
         return Article::orderBy("id")
             ->skip($skip_entries)
-            ->take(10)
+            ->take(self::PAGE_SIZE)
+            ->with('launches')
+            ->with('events')
             ->get();
     }
 
@@ -44,7 +48,10 @@ class ArticleController extends Controller
     }
 
     public function show(Article $article) {
-        return $article;
+        return Article::where('id', $article->id)
+            ->with('launches')
+            ->with('events')
+            ->first();
     }
 
     public function update(Request $request, Article $article) {

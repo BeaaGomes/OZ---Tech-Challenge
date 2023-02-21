@@ -12,6 +12,7 @@ class Article extends Model
 
     public $timestamps = false;
 
+    protected $hidden = array('pivot');
     protected $fillable = [
         'id',
         'external_id',
