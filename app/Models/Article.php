@@ -45,17 +45,17 @@ class Article extends Model
     }
 
     public static function createFromExternalArticle($external_article) {
-        $article = Article::create([
-            'externalId' => $external_article['id'] ?? null,
-            'title' => $external_article['title'],
-            'url' => $external_article['url'],
-            'imageUrl' => $external_article['imageUrl'] ?? null,
-            'newsSite' => $external_article['newsSite'],
-            'summary' => $external_article['summary'] ?? null,
-            'publishedAt' => Carbon::parse($external_article['publishedAt']),
-            'updatedAt' => Carbon::parse($external_article['updatedAt']),
-            'featured' => $external_article['featured']
-        ]);
+        if($external_article['publishedAt']){
+            $external_article['publishedAt'] = Carbon::parse($external_article['publishedAt']);
+        }
+
+        if($external_article['updatedAt']){
+            $external_article['updatedAt'] = Carbon::parse($external_article['updatedAt']);
+        }
+
+        $external_article['externalId'] = $external_article['id'] ?? null;
+
+        $article = Article::create($external_article);
 
         $article->associateLaunchesAndEvents($external_article['launches'], $external_article['events']);
 

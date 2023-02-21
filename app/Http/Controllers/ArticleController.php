@@ -21,16 +21,6 @@ class ArticleController extends Controller
             ->get();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request) {
         $external_article = $request->only([
             'title',
