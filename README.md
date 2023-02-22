@@ -50,6 +50,11 @@ O servidor agora está disponível em http://localhost:8000
 
 ## Como usar
 
+### Vídeo de apresentação do projeto
+
+Você pode conferir o vídeo de apresentação do projeto aqui
+    https://www.loom.com/share/17edd0154ba94b1c920f25f2196713e2
+
 ### Rotas
 
 - `[GET]/: ` Retorna a mensagem "Back-end Challenge 2021 🏅 - Space Flight News".
@@ -58,6 +63,8 @@ O servidor agora está disponível em http://localhost:8000
 - `[POST]/articles/:` Adiciona um novo artigo. Caso o usuário envie `launches` ou `events` que ainda não existem em nossa base, também os adiciona.
 - `[PUT]/articles/{id}: `Atualiza um artigo baseado no `id`. Caso o usuário envie `launches` ou `events` que ainda não existem em nossa base, os adiciona.
 - `[DELETE]/articles/{id}:` Remove um artigo baseado no `id`.
+
+
 
 ### Testes
 
