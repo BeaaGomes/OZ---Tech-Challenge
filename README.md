@@ -34,13 +34,17 @@ Preencha as variáveis relacionadas ao envio de emails no `.env`.
 
 Preencha no `.env` a variável `ALERT_MAIL_TO_ADDRESS` com o endereço de email que receberá os alertas em caso de erro na sincronização diária dos artigos.
 
-Rode as migrations do banco.
-
-    php artisan migrate
-
 Suba o container do docker.  
 
-    docker compose up 
+    docker compose up
+    
+Em um outro terminal, acesse o container do docker.
+
+    docker exec -it oz_tech_challenge bash
+    
+Dentro desse container, rode as migrations.
+
+    php artisan migrate
 
 O servidor agora está disponível em http://localhost:8000  
 
@@ -61,7 +65,7 @@ Para rodar os testes automatizados utilize o comando:
 
     php artisan test
 
-Os testes cobrem o funcionamento de todos os endpoints existentes.
+Os testes cobrem o funcionamento de todos os endpoints existentes. Lembre-se de sincronizar os artigos pelo menos uma vez antes de executar os testes.
 
 ### Sincronização dos dados
 
