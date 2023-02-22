@@ -78,10 +78,10 @@ class ArticleController extends Controller
 
         $fields_to_update = $validator->valid();
 
-        if($fields_to_update['publishedAt']){
+        if(isset($fields_to_update['publishedAt']) && $fields_to_update['publishedAt']){
             $fields_to_update['publishedAt'] = Carbon::parse($fields_to_update['publishedAt']);
         }
-        if($fields_to_update['updatedAt']){
+        if(isset($fields_to_update['updatedAt']) && $fields_to_update['updatedAt']){
             $fields_to_update['updatedAt'] = Carbon::parse($fields_to_update['updatedAt']);
         }
 
